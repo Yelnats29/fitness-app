@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <title>
+        <%= workout.workoutName %>
+    </title>
+</head>
+<%- include('./partials/nav') %>
+
+    <body>
+        <h1>
+            <%= workout.workoutName %>
+        </h1>
+        </br>
+        <div>
+            <label for="workoutFocus">Target Muscle: <%= workout.workoutFocus %></label>
+
+        </div>
+        </br>
+        <div>
+            <label for="mainGoal">Main Goal: <%= workout.mainGoal %></label>
+        </div>
+        </br>
+        <div>
+            <label for="equipment">Equipment Used: <%= workout.equipment %></label>
+        </div>
+        </br>
+        <div>
+            <label for="sets"># of Sets: <%= workout.sets %></label>
+        </div>
+        </br>
+        <div>
+            <label for="reps"># of Repetitions: <%= workout.reps %></label>
+        </div>
+        </br>
+        <div>
+            <label for="description">Recent Comment: <%= workout.description %></label>
+        </div>
+        </br>
+
+        <a href="/workout/<%= workout._id %>/edit">Edit <%= workout.workoutName %></a>
+
+        <form action="/workout/<%= workout._id %>?_method=DELETE" method="POST">
+        </br>
+            <button type="submit">Delete <%= workout.workoutName %></button>
+        </form>
+        
+    
+    </body>
+
+</html>

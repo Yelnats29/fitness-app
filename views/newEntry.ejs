@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <title>Create A Workout</title>
+</head>
+<%- include('./partials/nav') %>
+<body>
+    <h1>Create A Workout!</h1>
+    <form action="/workout" method="POST">
+
+
+        <div>
+            <label for="workoutName">Workout Name:</label>
+            <div><small>required</small>
+            </div>
+            <input type="text" name="workoutName" id="workoutName" required />
+        </div>
+    </br>
+        <div>
+            <label for="workoutFocus">Target Muscle:</label>
+            <div><small>required</small>
+            </div>
+            <input type="text" name="workoutFocus" id="workoutFocus" required />
+        </div>
+    </br>
+        <div>
+            <label for="mainGoal">Main Goal:</label>
+            <div><small>required</small>
+            </div>
+            <input type="text" name="mainGoal" id="mainGoal" required />
+        </div>
+    </br>
+        <div>
+            <label for="equipment">Equipment Used:</label>
+            <div><small>required</small>
+            </div>
+            <input type="text" name="equipment" id="equipment" required />
+        </div>
+    </br>
+        <div>
+            <label for="sets"># of Sets:</label>
+            <div><small>required</small>
+            </div>
+            <input type="number" name="sets" id="sets" />
+        </div>
+    </br>
+        <div>
+            <label for="reps"># of Repetitions:</label>
+            <div><small>required</small>
+            </div>
+            <input type="number" name="reps" id="reps" />
+        </div>
+    </br>
+        <div>
+            <label for="description">Comments:</label>
+            <div><small>Enter anything more you'd like to share here</small>
+            </div>
+
+            <textarea id="description" name="description" maxLength="300"></textarea>
+        </div>
+
+
+        <button type="submit">Submit</button>
+
+    </form>
+</body>
+
+</html>
