@@ -2,16 +2,28 @@ const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
 const mongoose = require("mongoose");
-const Fit = require("./model/workoutSchema.js");
-const User = require("./model/userSchema.js");
+const Fit = require("./models/workoutSchema.js");
+const User = require("./models/userSchema.js");
 const morgan = require("morgan");
 const methodOverride = require("method-override");
 const path = require("path");
 const app = express();
+const session = require("express-session");
+// Set the port from environment variable or default to 3000
+const port = process.env.PORT ? process.env.PORT : "3002";
+const authController = require("./controllers/auth.js");
 app.use(express.urlencoded({ extended: false })); // This creates the req.body.
 app.use(morgan('dev'));
 app.use(methodOverride("_method"));
+app.use(
+    session({
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: true,
+    })
+  );
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/auth", authController);
 mongoose.connect(process.env.MONGODB_URI);
 mongoose.connection.on("connected", () => {
     console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
@@ -23,7 +35,9 @@ app.listen(3002, () => {
 
 // Home Page
 app.get("/", (req, res) => {
-    res.render("home.ejs");
+    res.render("home.ejs", {
+        user: req.session.user,
+    });
 });
 
 // GET New Workout
@@ -43,10 +57,6 @@ app.get("/workout", async (req, res) => {
     res.render("allWorkouts.ejs", { workouts: allWorkouts });
 });
 
-// // Show Selected Workouts (show page)
-// app.get("/workout/view", (req, res) => {
-//     res.render("showWorkout.ejs");
-// });
 
 // Show Route to Show Selected
 app.get("/workout/:workoutId", async (req, res) => {

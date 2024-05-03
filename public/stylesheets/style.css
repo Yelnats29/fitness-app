@@ -42,21 +42,21 @@ header {
     text-decoration: none;
     font-weight: 500;
     margin-left: 40px;
-} */
+}
 
 /* Line under links */
-/* .navigation a::after {
-content: '';
-position: absolute;
-width: 100%;
-height: 3px;
-background: white;
-border-radius: 5px;
-left: 0;
-bottom: -6px;
-transform: scaleX(0);
-transition: transform .5s;
-transform-origin: right;
+/*.navigation a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: white;
+    border-radius: 5px;
+    left: 0;
+    bottom: -6px;
+    transform: scaleX(0);
+    transition: transform .5s;
+    transform-origin: right;
 }
 
 .navigation a:hover::after {
@@ -64,7 +64,8 @@ transform-origin: right;
     transform-origin: left;
 }
 
-.navigation .btnLogin-popup {
+.navigation .btnLogin-popup,
+.btnSignUp-popup {
     width: 130px;
     height: 50px;
     background: transparent;
@@ -79,8 +80,8 @@ transform-origin: right;
     transition: .5s;
 }
 
-.navigation
-.btnLogin-popup:hover {
+.navigation .btnLogin-popup:hover,
+.btnSignUp-popup:hover {
     background: white;
     color: black;
-} */
+}

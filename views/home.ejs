@@ -8,7 +8,11 @@
   </head>
   <%- include('./partials/nav') %>
   <body>
-    <h1>Welcome to your TrueEvolution!</h1>
+    <% if (user) { %>
+        <h1>Welcome to your TrueEvolution, <%= user.username %>!</h1>
+        <% } else { %>
+        <h1>Welcome to your TrueEvolution, guest.</h1>
+        <% } %>
     <h2><p>Time Is A Major Factor When It Comes To Reaching Your Goals! Everyday Is A New You and Every Step You Take Is One Further Than Yesterday!</p></h2>
     <h3>LETS GET TO IT!</h3>
   </body>
