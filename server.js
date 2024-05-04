@@ -8,6 +8,7 @@ const morgan = require("morgan");
 const methodOverride = require("method-override");
 const path = require("path");
 const MongoStore = require("connect-mongo");
+const isLoggedIn = require("./middleware/is-logged-in.js");
 const app = express();
 const session = require("express-session");
 // Set the port from environment variable or default to 3000
@@ -39,8 +40,6 @@ app.listen(3002, () => {
 
 
 
-
-
 // Home Page
 app.get("/", (req, res) => {
     res.render("home.ejs", {
@@ -48,19 +47,20 @@ app.get("/", (req, res) => {
     });
 });
 
-// Protecting Routes
-app.get("/workout/new", (req, res) => {
-    if (req.session.user) {
-      res.render(`newEntry.ejs`);
-    } else {
-      res.send("Sorry, no guests allowed.");
-    }
+// // Protecting Routes
+app.get("/workout/new", isLoggedIn, (req, res) => {
+    res.render(`newEntry.ejs`);
   });
 
-// // GET New Workout
-// app.get("/workout/new", (req, res) => {
-//     res.render("newEntry.ejs");
-// });
+  app.get("/workout/:workoutId", isLoggedIn, (req, res) => {
+    res.render(`showWorkouts.ejs`);
+  });
+
+  
+// GET New Workout
+app.get("/workout/new", (req, res) => {
+    res.render("newEntry.ejs");
+});
 
 // POST
 app.post("/workout", async (req, res) => {
