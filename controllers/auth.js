@@ -8,7 +8,7 @@ router.get("/sign-up", (req, res) => {
     res.render("auth/signup.ejs");
 });
 
-// POST the route to Sign Up(can i redirect this and you prompts for alerts?)
+// POST the route to Sign Up (can i redirect this and you prompts for alerts?)
 router.post("/sign-up", async (req, res) => {
     const userInDatabase = await User.findOne({ username: req.body.username });
     if (userInDatabase) {
@@ -20,7 +20,13 @@ router.post("/sign-up", async (req, res) => {
     const hashedPassword = bcrypt.hashSync(req.body.password, 10);
     req.body.password = hashedPassword;
     const user = await User.create(req.body);
-    res.send(`Thanks for signing up ${user.username}`);
+    req.session.user = {
+        username: user.username,
+    };
+
+    req.session.save(() => {
+        res.redirect("/");
+    });;
 });
 
 // Login Route
@@ -44,7 +50,16 @@ router.post("/login", async (req, res) => {
     req.session.user = {
         username: userInDatabase.username,
     };
-    res.redirect("/");
+    req.session.save(() => {
+        res.redirect("/");
+    });
+});
+
+// Log Out Route
+router.get("/log-out", (req, res) => {
+    req.session.destroy(() => {
+        res.redirect("/");
+    });
 });
 
 module.exports = router;

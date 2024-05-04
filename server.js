@@ -7,6 +7,7 @@ const User = require("./models/userSchema.js");
 const morgan = require("morgan");
 const methodOverride = require("method-override");
 const path = require("path");
+const MongoStore = require("connect-mongo");
 const app = express();
 const session = require("express-session");
 // Set the port from environment variable or default to 3000
@@ -20,6 +21,9 @@ app.use(
       secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: true,
+      store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI,
+      }),
     })
   );
 app.use(express.static(path.join(__dirname, "public")));
@@ -33,6 +37,10 @@ app.listen(3002, () => {
     console.log("Listening on port 3002");
 });
 
+
+
+
+
 // Home Page
 app.get("/", (req, res) => {
     res.render("home.ejs", {
@@ -40,10 +48,19 @@ app.get("/", (req, res) => {
     });
 });
 
-// GET New Workout
+// Protecting Routes
 app.get("/workout/new", (req, res) => {
-    res.render("newEntry.ejs");
-});
+    if (req.session.user) {
+      res.render(`newEntry.ejs`);
+    } else {
+      res.send("Sorry, no guests allowed.");
+    }
+  });
+
+// // GET New Workout
+// app.get("/workout/new", (req, res) => {
+//     res.render("newEntry.ejs");
+// });
 
 // POST
 app.post("/workout", async (req, res) => {
@@ -81,3 +98,12 @@ app.put("/workout/:workoutId", async (req, res) => {
     await Fit.findByIdAndUpdate(req.params.workoutId, req.body);
     res.redirect("/workout");
 });
+
+// Protecting Routes
+app.get("/workout/new", (req, res) => {
+    if (req.session.user) {
+      res.render(`newEntry.ejs`);
+    } else {
+      res.send("Sorry, no guests allowed.");
+    }
+  });
