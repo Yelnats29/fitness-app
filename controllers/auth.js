@@ -8,14 +8,14 @@ router.get("/sign-up", (req, res) => {
     res.render("auth/signup.ejs");
 });
 
-// POST the route to Sign Up (can i redirect this and you prompts for alerts?)
+// POST the route to Sign Up
 router.post("/sign-up", async (req, res) => {
     const userInDatabase = await User.findOne({ username: req.body.username });
     if (userInDatabase) {
-        return res.send("Username already taken.");
+        return res.send(`<script>alert("Username already taken."); window.history.back();</script>`)
     }
     if (req.body.password !== req.body.confirmPassword) {
-        return res.send("Password and Confirm Password must match");
+        return res.send(`<script>alert("Password and Confirm Password must match"); window.history.back();</script>`);
     }
     const hashedPassword = bcrypt.hashSync(req.body.password, 10);
     req.body.password = hashedPassword;
@@ -38,14 +38,14 @@ router.get("/login", (req, res) => {
 router.post("/login", async (req, res) => {
     const userInDatabase = await User.findOne({ username: req.body.username });
     if (!userInDatabase) {
-        return res.send("Login failed. Please try again.");
+        return res.send(`<script>alert("Login failed. Please try again."); window.history.back();</script>`);
     }
     const validPassword = bcrypt.compareSync(
         req.body.password,
         userInDatabase.password
     );
     if (!validPassword) {
-        return res.send("Login failed. Please try again.");
+        return res.send(`<script>alert("Login failed. Please try again."); window.history.back();</script>`);
     }
     req.session.user = {
         username: userInDatabase.username,

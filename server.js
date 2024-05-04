@@ -9,6 +9,7 @@ const methodOverride = require("method-override");
 const path = require("path");
 const MongoStore = require("connect-mongo");
 const isLoggedIn = require("./middleware/is-logged-in.js");
+const passUserToView = require("./middleware/pass-user-to-view.js");
 const app = express();
 const session = require("express-session");
 // Set the port from environment variable or default to 3000
@@ -19,14 +20,15 @@ app.use(morgan('dev'));
 app.use(methodOverride("_method"));
 app.use(
     session({
-      secret: process.env.SESSION_SECRET,
-      resave: false,
-      saveUninitialized: true,
-      store: MongoStore.create({
-        mongoUrl: process.env.MONGODB_URI,
-      }),
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: true,
+        store: MongoStore.create({
+            mongoUrl: process.env.MONGODB_URI,
+        }),
     })
-  );
+);
+app.use(passUserToView);
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/auth", authController);
 mongoose.connect(process.env.MONGODB_URI);
@@ -42,21 +44,18 @@ app.listen(3002, () => {
 
 // Home Page
 app.get("/", (req, res) => {
-    res.render("home.ejs", {
-        user: req.session.user,
-    });
+    res.render("home.ejs");
 });
 
-// // Protecting Routes
+// Protecting Routes
 app.get("/workout/new", isLoggedIn, (req, res) => {
     res.render(`newEntry.ejs`);
-  });
+});
 
-  app.get("/workout/:workoutId", isLoggedIn, (req, res) => {
+app.get("/workout/:workoutId", isLoggedIn, (req, res) => {
     res.render(`showWorkouts.ejs`);
-  });
+});
 
-  
 // GET New Workout
 app.get("/workout/new", (req, res) => {
     res.render("newEntry.ejs");
@@ -74,7 +73,6 @@ app.get("/workout", async (req, res) => {
     res.render("allWorkouts.ejs", { workouts: allWorkouts });
 });
 
-
 // Show Route to Show Selected
 app.get("/workout/:workoutId", async (req, res) => {
     const findWorkout = await Fit.findById(req.params.workoutId)
@@ -90,7 +88,7 @@ app.delete("/workout/:workoutId", async (req, res) => {
 // Edit
 app.get("/workout/:workoutId/edit", async (req, res) => {
     const editWorkout = await Fit.findById(req.params.workoutId);
-    res.render("edit.ejs", {workout: editWorkout});
+    res.render("edit.ejs", { workout: editWorkout });
 });
 
 // Update
@@ -98,12 +96,3 @@ app.put("/workout/:workoutId", async (req, res) => {
     await Fit.findByIdAndUpdate(req.params.workoutId, req.body);
     res.redirect("/workout");
 });
-
-// Protecting Routes
-app.get("/workout/new", (req, res) => {
-    if (req.session.user) {
-      res.render(`newEntry.ejs`);
-    } else {
-      res.send("Sorry, no guests allowed.");
-    }
-  });
