@@ -1,13 +1,48 @@
-<header>
-    <h2 class="logo">TrueEvolution</h2>
-    <nav class="navigation">
-        <a href="/">Home</a>
-        <a href="/workout">Workout List</a>
-        <a href="/workout/new">Create Workout</a>
-        <% if (user) { %>
+<html>
+
+<body>
+    <header>
+        <h2 class="logo">TrueEvolution</h2>
+        <nav class="navigation">
+            <a href="/">Home</a>
+            <a href="/workout">Workout List</a>
+            <a href="/workout/new">Create Workout</a>
+            <% if (user) { %>
+                <a href="/auth/log-out"><button class="btnLogOut">Log out</button></a>
+                <% } else { %>
+                    <a href="/auth/sign-up"><button class="btnSignUp-popup">Sign Up</button></a> <a
+                        href="/auth/login"><button class="btnLogin-popup">Login</button></a>
+                    <% } %>
+        </nav>
+        <div class="burger_menu_btn">
+            <ion-icon name="menu"></ion-icon>
+        </div>
+        <div class="dropdown_menu">
+            <a href="/">Home</a>
+            <a href="/workout">Workout List</a>
+            <a href="/workout/new">Create Workout</a>
+            <% if (user) { %>
                 <a href="/auth/log-out"><button>Log out</button></a>
-            <% } else { %>
-                    <a href="/auth/sign-up"><button class="btnSignUp-popup">Sign Up</button></a> <a href="/auth/login"><button class="btnLogin-popup">Login</button></a>.
-                <% } %>
-    </nav>
-</header>
+                <% } else { %>
+                    <a href="/auth/sign-up"><button class="btnSignUp-popup">Sign Up</button></a> <a
+                        href="/auth/login"><button class="btnLogin-popup">Login</button></a>
+                    <% } %>
+        </div>
+    </header>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const burgerBtn = document.querySelector(".burger_menu_btn");
+            const burgerIcon = document.querySelector(".menu");
+            const dropDownMenu = document.querySelector(".dropdown_menu");
+    
+            burgerBtn.onclick = function() {
+                dropDownMenu.classList.toggle('open');
+                const isOpen = dropDownMenu.classList.contains('open');
+    
+                burgerIcon.className = isOpen ? "close-circle-outline" : "menu";
+            };
+        });
+    </script>
+</body>
+
+</html>

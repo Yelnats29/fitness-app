@@ -8,11 +8,12 @@
 </head>
 <%- include('./partials/nav') %>
 <body>
-    <h1>Choose a Workout</h1>
+    <h1 class="chooseWorkout">Choose a Workout</h1>
     <ul>
       <% workouts.forEach(workout => { %>
-        <li><h3><a href="/workout/<%= workout._id %>"><%= workout.workoutName %></a></h3></li>
+        <li class="workoutChoices"><h3><a href="/workout/<%= workout._id %>"><%= workout.workoutName %></a></h3></li>
       <% }); %>
     </ul>
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
   </body>
 </html>

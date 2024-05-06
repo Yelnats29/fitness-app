@@ -42,14 +42,14 @@
         </div>
         </br>
 
-        <a href="/workout/<%= workout._id %>/edit">Edit <%= workout.workoutName %></a>
+        <a href="/workout/<%= workout._id %>/edit"><button>Edit <%= workout.workoutName %></button></a>
 
         <form action="/workout/<%= workout._id %>?_method=DELETE" method="POST">
         </br>
             <button type="submit">Delete <%= workout.workoutName %></button>
         </form>
         
-    
+        <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
     </body>
 
 </html>

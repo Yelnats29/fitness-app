@@ -48,16 +48,16 @@ app.get("/", (req, res) => {
 });
 
 // Protecting Routes
-app.get("/workout/new", isLoggedIn, (req, res) => {
-    res.render(`newEntry.ejs`);
-});
+// app.get("/workout/new", isLoggedIn, (req, res) => {
+//     res.render(`newEntry.ejs`);
+// });
 
-app.get("/workout/:workoutId", isLoggedIn, (req, res) => {
-    res.render(`showWorkouts.ejs`);
-});
+// app.get("/workout/:workoutId", isLoggedIn, (req, res) => {
+//     res.render(`showWorkout.ejs`);
+// });
 
 // GET New Workout
-app.get("/workout/new", (req, res) => {
+app.get("/workout/new", isLoggedIn, (req, res) => {
     res.render("newEntry.ejs");
 });
 
@@ -68,7 +68,7 @@ app.post("/workout", async (req, res) => {
 });
 
 // READ - Workout List
-app.get("/workout", async (req, res) => {
+app.get("/workout", isLoggedIn, async (req, res) => {
     const allWorkouts = await Fit.find();
     res.render("allWorkouts.ejs", { workouts: allWorkouts });
 });

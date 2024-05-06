@@ -11,11 +11,58 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    min-height: 100dvh;
     background: url("../images/incline-bench.jpg") no-repeat;
     background-size: cover;
     background-position: center;
+    flex-direction: column;
+    color: white;
+    text-align: center;
+
 }
+
+.welcomeScreen h1 {
+    font-size: 3em;
+    height: 750px;
+}
+
+.welcomeScreen p {
+    font-size: 1.5em;
+    height: -100px;
+    margin-bottom: 4rem;
+}
+
+.welcomeScreen h3 {
+    font-size: 2em;
+}
+
+.createTitle, .chooseWorkout, .login, .signup {
+    margin-bottom: 4rem;
+}
+
+.createScreen {
+    backdrop-filter: blur(5px);
+}
+
+
+.workoutChoices a {
+    text-decoration: none;
+    color: white;
+}
+
+.workoutChoices a:hover {
+    color: red;
+}
+
+footer {
+    font-size: 0.7em;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+  }
 
 header {
     position: fixed;
@@ -65,7 +112,7 @@ header {
 }
 
 .navigation .btnLogin-popup,
-.btnSignUp-popup {
+.btnSignUp-popup, .btnLogOut {
     width: 130px;
     height: 50px;
     background: transparent;
@@ -76,12 +123,89 @@ header {
     font-size: 1.1em;
     color: white;
     font-weight: 500;
-    margin-left: 40px;
+    margin-left: 5px;
     transition: .5s;
 }
 
 .navigation .btnLogin-popup:hover,
-.btnSignUp-popup:hover {
+.btnSignUp-popup:hover, .btnLogOut:hover {
     background: white;
     color: black;
+}
+
+.burger_menu_btn {
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: none;
+}
+
+/* Dropdown Menu */
+.dropdown_menu {
+    display: none;
+    position: absolute;
+    right: 2rem;
+    top: 60px;
+    height: 0;
+    width: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    overflow: hidden;
+    transition: height .2s;
+}
+
+.dropdown_menu.open {
+    height: 240px;
+}
+
+.dropdown_menu a {
+    padding: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+    font-weight: 500px;
+}
+
+
+
+
+
+/* Responsive Design */
+@media (max-width: 992px) {
+
+    .navigation a,
+    .btnLogin-popup,
+    .btnSignUp-popup, .btnLogOut {
+        display: none;
+    }
+
+    .burger_menu_btn {
+        display: block;
+    }
+
+    .dropdown_menu {
+        display: block;
+    }
+
+    .dropdown_menu:hover {
+        color: red;
+    }
+
+    .dropdown_menu .navigation a,
+    .btnLogin-popup,
+    .btnSignUp-popup, .btnLogOut {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .dropdown_menu {
+        left: 2rem;
+        width: unset;
+    }
 }
